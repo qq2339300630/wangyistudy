@@ -24,6 +24,7 @@ class MyView @JvmOverloads constructor(
         val bitmap = getAvattar(100)
         for (i in 0 until bitmap.width) {
             for (j in 0 until bitmap.height) {
+                //getPixel为图片当前position的像素点颜色，x坐标等于像素点半径 * postiton + 半径
                 val ball = Ball(i * d + d / 2, j * d + d / 2, bitmap.getPixel(i, j))
                 list.add(ball)
             }
@@ -45,6 +46,7 @@ class MyView @JvmOverloads constructor(
         return true
     }
 
+    // 随机取值范围，Math.random 随机0 - 1，利用最大最小值得差想乘 + 最小值
     private fun rangInt(i: Int, j: Int): Int {
         val max = i.coerceAtLeast(j)
         val min = i.coerceAtMost(j) - 1
@@ -58,6 +60,7 @@ class MyView @JvmOverloads constructor(
         for (ball in list) {
             paint.color = ball.color
             if (isClick) {
+                // 计算位移  s = vt + 1/2*a*t^2
                 val nowT = (System.currentTimeMillis() - ball.t) / 1000f
                 ball.x = ball.x + (ball.vx * nowT + 0.5f * ball.ax * nowT * nowT).toInt()
                 ball.y = ball.y + (ball.vy * nowT + 0.5f * ball.ay * nowT * nowT).toInt()
@@ -70,6 +73,7 @@ class MyView @JvmOverloads constructor(
         }
     }
 
+    //获取图片
     private fun getAvattar(widit: Int): Bitmap {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
