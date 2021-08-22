@@ -16,4 +16,4 @@ val strokeWidth = hypot(
 
 效果图
 
-![canvas动画](C:\Users\YanQing\Desktop\canvas动画.gif)
+![canvas动画](..\gif\canvas动画.gif)
