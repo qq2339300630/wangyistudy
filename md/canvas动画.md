@@ -16,4 +16,4 @@ val strokeWidth = hypot(
 
 效果图
 
-![canvas动画](..\gif\canvas动画.gif)
+![image](https://github.com/qq2339300630/wangyistudy/blob/master/gif/canvas%E5%8A%A8%E7%94%BB.gif)
