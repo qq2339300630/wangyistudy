@@ -4,10 +4,7 @@ import android.animation.Animator
 import android.animation.PointFEvaluator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.PointF
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -18,7 +15,7 @@ class BubblesView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private val mBallRadius = 30f
+    private val mBallRadius = 40f
     private var mBubblesState = BubblesState.Default
     private val mPaint = Paint().apply {
         style = Paint.Style.FILL
@@ -41,7 +38,7 @@ class BubblesView @JvmOverloads constructor(
     private var mConnectX = 0f
     private var mConnectY = 0f
 
-    private val mOverMove = 300f
+    private val mOverMove = 400f
 
 
     private lateinit var mReboundAnimator: ValueAnimator
@@ -54,7 +51,7 @@ class BubblesView @JvmOverloads constructor(
             PointF(width / 2f, height / 2f)
         ).apply {
             duration = 400
-            interpolator = OvershootInterpolator()
+            interpolator = OvershootInterpolator(5f)
             addUpdateListener {
                 mConnectX = (it.animatedValue as PointF).x
                 mConnectY = (it.animatedValue as PointF).y
@@ -142,14 +139,36 @@ class BubblesView @JvmOverloads constructor(
             }
             BubblesState.Connect -> {
                 //todo 小球不断缩小
-                canvas.drawCircle(
-                    width / 2f, height / 2f, (mBallRadius - (hypot(
-                        mConnectX - width / 2,
-                        mConnectY - height / 2,
-                    ) / mOverMove) * mBallRadius).coerceAtLeast(10f), mPaint
-                )
+                val smallR = (mBallRadius - (hypot(
+                    mConnectX - width / 2,
+                    mConnectY - height / 2,
+                ) / mOverMove) * mBallRadius).coerceAtLeast(10f)
+                val pointCenter = PointF((mConnectX + width / 2) / 2, (mConnectY + height / 2) / 2)
+                val cosL =
+                    (mConnectY - height / 2) / hypot(mConnectY - height / 2, mConnectX - width / 2)
+                val sinL =
+                    (mConnectX - width / 2) / hypot(mConnectY - height / 2, mConnectX - width / 2)
+                val pointA = PointF(width / 2f - cosL * smallR, height / 2f + sinL * smallR)
+                val pointD = PointF(width / 2f + cosL * smallR, height / 2f - sinL * smallR)
+                val pointB = PointF(mConnectX - cosL * mBallRadius, mConnectY + sinL * mBallRadius)
+                val pointC = PointF(mConnectX + cosL * mBallRadius, mConnectY - sinL * mBallRadius)
+                val pathLine = Path()
+
+                pathLine.reset()
+                pathLine.moveTo(pointD.x, pointD.y)
+                pathLine.quadTo(pointCenter.x,pointCenter.y,pointC.x, pointC.y)
+
+                pathLine.lineTo(pointB.x, pointB.y)
+                pathLine.quadTo(pointCenter.x,pointCenter.y,pointA.x, pointA.y)
+                pathLine.close()
 
                 //todo 绘制贝塞尔曲线
+                canvas.drawPath(pathLine, mPaint)
+                canvas.drawCircle(
+                    width / 2f, height / 2f, smallR, mPaint
+                )
+
+                //todo 绘制动球
                 canvas.drawCircle(mConnectX, mConnectY, mBallRadius, mPaint)
                 canvas.drawText(
                     mText,
@@ -157,6 +176,7 @@ class BubblesView @JvmOverloads constructor(
                     mConnectY - (mFontMetrics.ascent + mFontMetrics.bottom) / 2,
                     mDrawTextPaint
                 )
+
             }
             BubblesState.OverMove -> {
                 canvas.drawCircle(mConnectX, mConnectY, mBallRadius, mPaint)
