@@ -145,21 +145,21 @@ class BubblesView @JvmOverloads constructor(
                 ) / mOverMove) * mBallRadius).coerceAtLeast(10f)
                 val pointCenter = PointF((mConnectX + width / 2) / 2, (mConnectY + height / 2) / 2)
                 val cosL =
-                    (mConnectY - height / 2) / hypot(mConnectY - height / 2, mConnectX - width / 2)
+                    (height / 2 - mConnectY) / hypot(mConnectY - height / 2, mConnectX - width / 2)
                 val sinL =
                     (mConnectX - width / 2) / hypot(mConnectY - height / 2, mConnectX - width / 2)
-                val pointA = PointF(width / 2f - cosL * smallR, height / 2f + sinL * smallR)
-                val pointD = PointF(width / 2f + cosL * smallR, height / 2f - sinL * smallR)
-                val pointB = PointF(mConnectX - cosL * mBallRadius, mConnectY + sinL * mBallRadius)
-                val pointC = PointF(mConnectX + cosL * mBallRadius, mConnectY - sinL * mBallRadius)
+                val pointA = PointF(width / 2f - cosL * smallR, height / 2f - sinL * smallR)
+                val pointD = PointF(width / 2f + cosL * smallR, height / 2f + sinL * smallR)
+                val pointB = PointF(mConnectX - cosL * mBallRadius, mConnectY - sinL * mBallRadius)
+                val pointC = PointF(mConnectX + cosL * mBallRadius, mConnectY + sinL * mBallRadius)
                 val pathLine = Path()
 
                 pathLine.reset()
                 pathLine.moveTo(pointD.x, pointD.y)
-                pathLine.quadTo(pointCenter.x,pointCenter.y,pointC.x, pointC.y)
+                pathLine.quadTo(pointCenter.x, pointCenter.y, pointC.x, pointC.y)
 
                 pathLine.lineTo(pointB.x, pointB.y)
-                pathLine.quadTo(pointCenter.x,pointCenter.y,pointA.x, pointA.y)
+                pathLine.quadTo(pointCenter.x, pointCenter.y, pointA.x, pointA.y)
                 pathLine.close()
 
                 //todo 绘制贝塞尔曲线
