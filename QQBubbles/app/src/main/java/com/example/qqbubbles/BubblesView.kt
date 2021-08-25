@@ -30,6 +30,8 @@ class BubblesView @JvmOverloads constructor(
         textAlign = Paint.Align.CENTER
     }
 
+    val mBitmapList = mutableListOf<Bitmap>()
+
 
     private val mFontMetrics = mDrawTextPaint.fontMetrics
     private val mText = "12"
@@ -42,9 +44,28 @@ class BubblesView @JvmOverloads constructor(
 
 
     private lateinit var mReboundAnimator: ValueAnimator
+    private lateinit var mBubblesAnimator: ValueAnimator
+
+    private var mBitmapIndex = 0
+
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
+        mBitmapList.clear()
+        mBitmapList.add(BitmapFactory.decodeResource(resources, R.mipmap.burst_1))
+        mBitmapList.add(BitmapFactory.decodeResource(resources, R.mipmap.burst_2))
+        mBitmapList.add(BitmapFactory.decodeResource(resources, R.mipmap.burst_3))
+        mBitmapList.add(BitmapFactory.decodeResource(resources, R.mipmap.burst_4))
+        mBitmapList.add(BitmapFactory.decodeResource(resources, R.mipmap.burst_5))
+
+        mBubblesAnimator = ValueAnimator.ofInt(0, mBitmapList.size).apply {
+            addUpdateListener {
+                mBitmapIndex = it.animatedValue as Int
+                invalidate()
+            }
+            duration = 500
+        }
+
         mReboundAnimator = ValueAnimator.ofObject(
             PointFEvaluator(),
             PointF(mConnectX, mConnectY),
@@ -63,7 +84,6 @@ class BubblesView @JvmOverloads constructor(
                 }
 
                 override fun onAnimationEnd(p0: Animator?) {
-                    mBubblesState = BubblesState.Default
                     invalidate()
                 }
 
@@ -114,6 +134,8 @@ class BubblesView @JvmOverloads constructor(
                     mReboundAnimator.start()
                 } else if (mBubblesState == BubblesState.OverMove) {
                     // todo 执行爆炸动画
+                    mBubblesState = BubblesState.Boom
+                    mBubblesAnimator.start()
                 }
             }
         }
@@ -188,7 +210,8 @@ class BubblesView @JvmOverloads constructor(
                 )
             }
             BubblesState.Boom -> {
-
+                if (mBitmapIndex < mBitmapList.size)
+                canvas.drawBitmap(mBitmapList[mBitmapIndex], mConnectX, mConnectY, mPaint)
             }
         }
         super.onDraw(canvas)
