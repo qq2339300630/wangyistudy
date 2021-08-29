@@ -33,4 +33,4 @@ A点在左上,所以是（width - cosL * smallR， height / 2f - sinL * smallR�
 （1）爆炸效果很简单，利用一组图片+动画就可以完成
 
 演示视频
-
+![image](https://github.com/qq2339300630/wangyistudy/blob/master/gif/qq%E6%B0%94%E6%B3%A1.gif)
