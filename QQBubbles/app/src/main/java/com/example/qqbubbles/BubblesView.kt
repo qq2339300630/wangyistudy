@@ -1,6 +1,7 @@
 package com.example.qqbubbles
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.PointFEvaluator
 import android.animation.ValueAnimator
 import android.content.Context
@@ -48,6 +49,13 @@ class BubblesView @JvmOverloads constructor(
 
     private var mBitmapIndex = 0
 
+    private val pointCenter = PointF()
+    private val pointA: PointF = PointF()
+    private val pointD: PointF = PointF()
+    private val pointB: PointF = PointF()
+    private val pointC: PointF = PointF()
+    private val pathLine: Path = Path()
+
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -78,23 +86,10 @@ class BubblesView @JvmOverloads constructor(
                 mConnectY = (it.animatedValue as PointF).y
                 invalidate()
             }
-            addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(p0: Animator?) {
-
-                }
-
+            addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(p0: Animator?) {
                     invalidate()
                 }
-
-                override fun onAnimationCancel(p0: Animator?) {
-
-                }
-
-                override fun onAnimationRepeat(p0: Animator?) {
-
-                }
-
             })
         }
     }
@@ -165,16 +160,23 @@ class BubblesView @JvmOverloads constructor(
                     mConnectX - width / 2,
                     mConnectY - height / 2,
                 ) / mOverMove) * mBallRadius).coerceAtLeast(10f)
-                val pointCenter = PointF((mConnectX + width / 2) / 2, (mConnectY + height / 2) / 2)
+                pointCenter.x = (mConnectX + width / 2) / 2
+                pointCenter.y = (mConnectY + height / 2) / 2
                 val cosL =
                     (height / 2 - mConnectY) / hypot(mConnectY - height / 2, mConnectX - width / 2)
                 val sinL =
                     (mConnectX - width / 2) / hypot(mConnectY - height / 2, mConnectX - width / 2)
-                val pointA = PointF(width / 2f - cosL * smallR, height / 2f - sinL * smallR)
-                val pointD = PointF(width / 2f + cosL * smallR, height / 2f + sinL * smallR)
-                val pointB = PointF(mConnectX - cosL * mBallRadius, mConnectY - sinL * mBallRadius)
-                val pointC = PointF(mConnectX + cosL * mBallRadius, mConnectY + sinL * mBallRadius)
-                val pathLine = Path()
+                pointA.x = width / 2f - cosL * smallR
+                pointA.y = height / 2f - sinL * smallR
+
+                pointD.x = width / 2f + cosL * smallR
+                pointD.y = height / 2f + sinL * smallR
+
+                pointB.x = mConnectX - cosL * mBallRadius
+                pointB.y = mConnectY - sinL * mBallRadius
+                pointC.x = mConnectX + cosL * mBallRadius
+                pointC.y = mConnectY + sinL * mBallRadius
+
 
                 pathLine.reset()
                 pathLine.moveTo(pointD.x, pointD.y)
@@ -211,7 +213,7 @@ class BubblesView @JvmOverloads constructor(
             }
             BubblesState.Boom -> {
                 if (mBitmapIndex < mBitmapList.size)
-                canvas.drawBitmap(mBitmapList[mBitmapIndex], mConnectX, mConnectY, mPaint)
+                    canvas.drawBitmap(mBitmapList[mBitmapIndex], mConnectX, mConnectY, mPaint)
             }
         }
         super.onDraw(canvas)
