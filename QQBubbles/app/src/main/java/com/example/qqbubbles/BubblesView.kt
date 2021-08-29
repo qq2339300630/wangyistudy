@@ -31,7 +31,7 @@ class BubblesView @JvmOverloads constructor(
         textAlign = Paint.Align.CENTER
     }
 
-    val mBitmapList = mutableListOf<Bitmap>()
+    private val mBitmapList = mutableListOf<Bitmap>()
 
 
     private val mFontMetrics = mDrawTextPaint.fontMetrics
