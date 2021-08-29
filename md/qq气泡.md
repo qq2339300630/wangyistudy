@@ -6,7 +6,7 @@ qq气泡仿写
 
 2.拖动时双气泡，中间使用贝塞尔曲线连接，同时不动小球半径随着贝塞尔曲线长度反比
 
-![math](..\img\math.jpg)
+<img src="..\img\math.png" alt="math" style="zoom:15%;" />
 
 利用sin与cos把四个点计算出来，其中注意sin是y1-y2因为这些都是有正负号的
 
