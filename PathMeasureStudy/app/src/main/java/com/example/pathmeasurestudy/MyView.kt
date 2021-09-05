@@ -38,6 +38,7 @@ class MyView @JvmOverloads constructor(
         }
     }
 
+    // todo  初始化pathMeasure与path
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         path.addCircle(width / 2f, height / 2f, 200f, Path.Direction.CW)
