@@ -22,4 +22,4 @@ val strokeWidth = hypot(
 
 效果图
 
-![image](https://github.com/qq2339300630/wangyistudy/blob/master/gif/canvas%E5%8A%A8%E7%94%BB.gif)
+![image](gif/canvas%E5%8A%A8%E7%94%BB.gif)
