@@ -34,3 +34,6 @@ canvas.drawBitmap(bitmap,mMatrix,paint)
 
 4.使用动画
 
+效果图
+![image](https://github.com/qq2339300630/wangyistudy/blob/master/gif/PathMeasure.gif)
+
