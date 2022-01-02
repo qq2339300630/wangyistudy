@@ -15,13 +15,13 @@ class MainActivity : AppCompatActivity() {
         viewBinding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(viewBinding.root)
         viewBinding.tvMsg.setOnClickListener {
-//            val objectAnimator = MyObjectAnimator.ofFloat(it, "scaleX", 1f,2f)
-//            objectAnimator.mDuration = 3000
-//            objectAnimator.start()
+            val objectAnimator = MyObjectAnimator.ofFloat(it, "scaleX", 1f,2f)
+            objectAnimator.mDuration = 3000
+            objectAnimator.start()
 
-            val objectAnimator2 = ObjectAnimator.ofFloat(it, "scaleX", 2f)
-            objectAnimator2.duration = 3000
-            objectAnimator2.start()
+//            val objectAnimator2 = ObjectAnimator.ofFloat(it, "scaleX", 2f)
+//            objectAnimator2.duration = 3000
+//            objectAnimator2.start()
         }
     }
 }
