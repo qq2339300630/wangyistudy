@@ -28,7 +28,7 @@ class ParallaxContainer @JvmOverloads constructor(
         }
         val vp = ViewPager(context)
         vp.id = R.id.parallax_pager
-        val activity = context as MainActivity
+        val activity = context as SplashActivity
         adapter = ParallaxPagerAdapter(activity.supportFragmentManager, fragments)
         vp.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         vp.adapter = adapter
@@ -45,8 +45,8 @@ class ParallaxContainer @JvmOverloads constructor(
             val outViews = outFragment.parallaxViews
             if (outViews != null) {
                 for (view in outViews) {
-                    var tag: ParallaxViewTag =
-                        view.getTag(R.id.parallax_view_tag) as ParallaxViewTag
+                    var tag: ParallaxViewTag? =
+                        view.getTag(R.id.parallax_view_tag) as ParallaxViewTag?
                     if (tag == null) {
                         continue
                     }
@@ -59,8 +59,8 @@ class ParallaxContainer @JvmOverloads constructor(
         if (inFragment != null) {
             val inViews = inFragment.parallaxViews
             for (view in inViews) {
-                var tag: ParallaxViewTag =
-                    view.getTag(R.id.parallax_view_tag) as ParallaxViewTag
+                var tag: ParallaxViewTag? =
+                    view.getTag(R.id.parallax_view_tag) as ParallaxViewTag?
                 if (tag == null) {
                     continue
                 }
@@ -73,9 +73,9 @@ class ParallaxContainer @JvmOverloads constructor(
 
     override fun onPageSelected(position: Int) {
         if (position == adapter.count - 1) {
-            iv_main?.visibility = VISIBLE
-        } else {
             iv_main?.visibility = INVISIBLE
+        } else {
+            iv_main?.visibility = VISIBLE
         }
     }
 

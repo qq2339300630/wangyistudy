@@ -2,8 +2,10 @@ package com.example.pageviewstudy
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import java.lang.Exception
 
 class ParallaxLayoutInflater : LayoutInflater {
 
@@ -16,6 +18,7 @@ class ParallaxLayoutInflater : LayoutInflater {
         context
     ) {
         this.fragment = fragment
+        factory2 = ParallaxFactor(this)
     }
 
     override fun cloneInContext(newContext: Context?): LayoutInflater {
@@ -38,7 +41,7 @@ class ParallaxLayoutInflater : LayoutInflater {
             val view = createMyView(name, attrs)
             if (view != null) {
                 val a = context.obtainStyledAttributes(attrs, attrIds)
-                if (a != null && a.length() > 6) {
+                if (a.length() > 0) {
                     val tag = ParallaxViewTag.TagBuild()
                         .setAlphaIn(a.getFloat(0, 0f))
                         .setAlphaOut(a.getFloat(1, 0f))
@@ -47,6 +50,8 @@ class ParallaxLayoutInflater : LayoutInflater {
                         .setYIn(a.getFloat(4, 0f))
                         .setXOut(a.getFloat(5, 0f))
                         .build()
+                    Log.e("caojiajun",tag.toString())
+                    view.setTag(R.id.parallax_view_tag,tag)
                 }
                 fragment!!.parallaxViews.add(view)
                 a.recycle()
@@ -63,14 +68,22 @@ class ParallaxLayoutInflater : LayoutInflater {
                 return reflectView(name, null, attrs)
             } else {
                 for (prefix in sClassPrefix) {
-                    return reflectView(name, prefix, attrs)
+                    var view = reflectView(name, prefix, attrs)
+                    if (view != null) {
+                        return view
+                    }
                 }
             }
             return null
         }
 
-        private fun reflectView(name: String, prefix: String?, attrs: AttributeSet): View {
-            return inflater.createView(name, prefix, attrs)
+        private fun reflectView(name: String, prefix: String?, attrs: AttributeSet): View? {
+            try {
+                return inflater.createView(name, prefix, attrs)
+            } catch (e:Exception) {
+                return null
+            }
+
         }
 
     }

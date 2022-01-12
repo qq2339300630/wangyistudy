@@ -10,6 +10,12 @@ class ParallaxViewTag(
     var alphaOut: Float
 ) {
 
+    override fun toString(): String {
+        return ("ParallaxViewTag [index=" + index + ", xIn=" + xIn + ", xOut="
+                + xOut + ", yIn=" + yIn + ", yOut=" + yOut + ", alphaIn="
+                + alphaIn + ", alphaOut=" + alphaOut + "]")
+    }
+
      class TagBuild() {
          var index: Int = 0
           var xIn: Float = 0f

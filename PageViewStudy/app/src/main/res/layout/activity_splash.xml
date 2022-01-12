@@ -6,6 +6,13 @@
     android:background="@color/white"
     tools:context=".MainActivity">
 
+    <com.example.pageviewstudy.ParallaxContainer
+        android:id="@+id/parallax_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.example.pageviewstudy.ParallaxContainer>
+
 
     <ImageView
         android:id="@+id/iv_man"
