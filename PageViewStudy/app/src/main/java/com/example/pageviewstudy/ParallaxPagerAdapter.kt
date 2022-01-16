@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 class ParallaxPagerAdapter(
     fragmentManager: FragmentManager,
-    val fragments: MutableList<ParallaxFragment>
+    private val fragments: MutableList<ParallaxFragment>
 ) : FragmentPagerAdapter(fragmentManager) {
 
     override fun getCount(): Int {
