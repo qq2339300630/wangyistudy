@@ -19,9 +19,13 @@ class UIRelativeLayout @JvmOverloads constructor(
             val scaleX = UIUtils.getHorizontalScaleValue()
             val scaleY = UIUtils.getVerticalScaleValue()
             for (child in children) {
-                val layoutParams = child.layoutParams
+                val layoutParams = child.layoutParams as LayoutParams
                 layoutParams.width = (layoutParams.width * scaleX).toInt()
                 layoutParams.height = (layoutParams.height * scaleY).toInt()
+                layoutParams.leftMargin = (layoutParams.leftMargin * scaleX).toInt()
+                layoutParams.rightMargin = (layoutParams.rightMargin * scaleX).toInt()
+                layoutParams.topMargin = (layoutParams.topMargin * scaleX).toInt()
+                layoutParams.bottomMargin = (layoutParams.bottomMargin * scaleX).toInt()
             }
         }
     }
